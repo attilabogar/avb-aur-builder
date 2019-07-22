@@ -1,0 +1,9 @@
+---
+dist: xenial
+services:
+  - docker
+install:
+  - docker build -t attilabogar/avb-aur-builder .
+script:
+  - ./build-pipeline.sh google-chrome
+  - test -s ./repo/google-chrome-*.pkg.tar.xz
