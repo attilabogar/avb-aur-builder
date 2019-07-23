@@ -21,7 +21,8 @@ function clean_workspace() {
 
 function build() {
   docker-compose down || :
-  MYUID=$(id -u) MYGID=$(id -g) PKGNAME="$1" docker-compose up
+  MYUID=$(id -u) MYGID=$(id -g) PKGNAME="$1" docker-compose up --exit-code-from build && docker-compose down
+  return $?
 }
 
 [[ $# -eq 0 ]] && usage
