@@ -16,7 +16,7 @@ function rebuild_repo() {
 
 
 build_pkg() {
-  cd /data/build/"$1"
+  cd /data/workspace/"$1"
   ( . PKGBUILD ; for key in "${validpgpkeys[@]}"; do gpg --recv-keys "$key" ; done ) || :
   sudo pacman -Syy
   makepkg --noconfirm --cleanbuild -s
@@ -26,9 +26,9 @@ build_pkg() {
 
 rebuild_repo
 
-if ! [[ -d "/data/build/$1" ]]
+if ! [[ -d "/data/workspace/$1" ]]
 then
-  # there is no package source under /data/build/$1
+  # there is no package source under /data/workspace/$1
   # check for my own aur override
   code=$(curl -L -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/attilabogar/avb-aur/master/${1}/PKGBUILD")
   if [[ $code -eq 200 ]]
@@ -36,12 +36,12 @@ then
     cd /tmp
     git clone https://github.com/attilabogar/avb-aur.git
     cd avb-aur
-    cp -pr "$1" /data/build/
+    cp -pr "$1" /data/workspace/
   else
     # we get the official AUR package
     curl -R -L -o "/tmp/$1.tar.gz" \
       "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz"
-    tar -C /data/build/ -xzf "/tmp/$1.tar.gz"
+    tar -C /data/workspace/ -xzf "/tmp/$1.tar.gz"
   fi
 fi
 

@@ -9,6 +9,6 @@ services:
       - GID=${MYGID}
       - PKGNAME=${PKGNAME}
     volumes:
-      - ./build:/data/build
+      - ./workspace:/data/workspace
       - ./repo:/data/repo
       - ./build-helper.sh:/build-helper.sh:ro

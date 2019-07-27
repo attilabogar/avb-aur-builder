@@ -14,9 +14,9 @@ function drop_repo() {
 }
 
 function clean_workspace() {
-  rm -rf ./build/ || :
-  mkdir -p ./build
-  touch ./build/.gitkeep
+  rm -rf ./workspace/ || :
+  mkdir -p ./workspace
+  touch ./workspace/.gitkeep
 }
 
 function build() {
@@ -34,7 +34,7 @@ while [[ $# -gt 0 ]]
 do
   if [[ -d "$1" ]]
   then
-    cp -pr "$1" ./build/
+    cp -pr "$1" ./workspace/
     build "$1"
   elif [[ -s "$1" ]]
   then
