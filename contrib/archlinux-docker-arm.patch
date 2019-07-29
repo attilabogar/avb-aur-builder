@@ -1,0 +1,20 @@
+diff --git a/Makefile b/Makefile
+index 9a94322..375f3c2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -4,11 +4,13 @@ DOCKER_IMAGE:=base
+ 
+ rootfs:
+ 	$(eval TMPDIR := $(shell mktemp -d))
+-	env -i pacstrap -C /usr/share/devtools/pacman-extra.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
++	env -i pacstrap -C /etc/pacman.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
+ 	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
++	cp -p /etc/pacman.conf $(TMPDIR)/etc/
++	cp -p /etc/pacman.d/mirrorlist $(TMPDIR)/etc/pacman.d/
+ 	arch-chroot $(TMPDIR) locale-gen
+ 	arch-chroot $(TMPDIR) pacman-key --init
+-	arch-chroot $(TMPDIR) pacman-key --populate archlinux
++	arch-chroot $(TMPDIR) pacman-key --populate archlinuxarm
+ 	tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $(TMPDIR) -c . -f archlinux.tar
+ 	rm -rf $(TMPDIR)
+ 
