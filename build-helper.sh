@@ -19,7 +19,7 @@ build_pkg() {
   cd /data/workspace/"$1"
   ( . PKGBUILD ; for key in "${validpgpkeys[@]}"; do gpg --recv-keys "$key" ; done ) || :
   sudo pacman -Syy
-  makepkg --noconfirm --cleanbuild -s
+  makepkg --ignorearch --noconfirm --cleanbuild -s
   cp -p *.pkg.tar.xz /data/repo/
   rebuild_repo
 }
