@@ -35,6 +35,9 @@ The precedence for `build-pipeline.sh` resolving ARGV as follows:
   - docker-compose
 
 The setup of specific repositories, such as `multilib` is your responsibility.
+The docker image built upon
+[archlinux/base](https://github.com/archlinux/archlinux-docker) - you can check
+my patches I use for archlinux and archlinuxarm in the `contrib/` directory.
 
 # Structure
 
