@@ -1,15 +1,23 @@
 diff --git a/Makefile b/Makefile
-index 9a94322..375f3c2 100644
+index 9a94322..215d3f7 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -4,11 +4,13 @@ DOCKER_IMAGE:=base
+@@ -1,14 +1,19 @@
++ARCHITECTURE:=armv7h
+ DOCKER_USER:=pierres
+-DOCKER_ORGANIZATION=archlinux
+-DOCKER_IMAGE:=base
++DOCKER_ORGANIZATION=attilabogar
++DOCKER_IMAGE:=archbase-$(ARCHITECTURE)
  
  rootfs:
  	$(eval TMPDIR := $(shell mktemp -d))
 -	env -i pacstrap -C /usr/share/devtools/pacman-extra.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
-+	env -i pacstrap -C /etc/pacman.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
++	cp -p /etc/pacman.conf $(TMPDIR)/pacman.conf
++	sed -i 's/^Architecture =.*/Architecture = $(ARCHITECTURE)/g' $(TMPDIR)/pacman.conf
++	env -i pacstrap -C $(TMPDIR)/pacman.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
  	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
-+	cp -p /etc/pacman.conf $(TMPDIR)/etc/
++	mv /$(TMPDIR)/pacman.conf $(TMPDIR)/etc/
 +	cp -p /etc/pacman.d/mirrorlist $(TMPDIR)/etc/pacman.d/
  	arch-chroot $(TMPDIR) locale-gen
  	arch-chroot $(TMPDIR) pacman-key --init

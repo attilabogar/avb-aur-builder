@@ -1,8 +1,16 @@
 diff --git a/Makefile b/Makefile
-index 9a94322..09a6a45 100644
+index 9a94322..7f3ebb6 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -6,6 +6,8 @@ rootfs:
+@@ -1,11 +1,13 @@
+-DOCKER_USER:=pierres
+-DOCKER_ORGANIZATION=archlinux
+-DOCKER_IMAGE:=base
++DOCKER_USER:=attilabogar
++DOCKER_ORGANIZATION=attilabogar
++DOCKER_IMAGE:=archbase-x86_64
+ 
+ rootfs:
  	$(eval TMPDIR := $(shell mktemp -d))
  	env -i pacstrap -C /usr/share/devtools/pacman-extra.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
  	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
