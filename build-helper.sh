@@ -7,7 +7,7 @@ function rebuild_repo() {
   cd /data/repo
   local repo=repo
   rm -f $repo.db{,.tar.gz,.tar.gz.old} $repo.files{,.tar.gz,.tar.gz.old}
-  repo-add $repo.db.tar.gz *.pkg.tar.xz || repo-add $repo.db.tar.gz
+  repo-add $repo.db.tar.gz *.pkg.tar.zst || repo-add $repo.db.tar.gz
   rm -f $repo.{db,files}
   cp -pv $repo.db.tar.gz $repo.db
   cp -pv $repo.files.tar.gz $repo.files
@@ -19,8 +19,8 @@ build_pkg() {
   cd /data/workspace/"$1"
   ( . PKGBUILD ; for key in "${validpgpkeys[@]}"; do gpg --recv-keys "$key" ; done ) || :
   sudo pacman -Syy
-  makepkg --ignorearch --noconfirm --cleanbuild -s
-  cp -p *.pkg.tar.xz /data/repo/
+  PKGEXT=.pkg.tar.zst makepkg --ignorearch --noconfirm --cleanbuild -s
+  cp -p *.pkg.tar.zst /data/repo/
   rebuild_repo
 }
 

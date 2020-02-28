@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM attilabogar/archbase-x86_64
 LABEL authors="Attila Bogár <attila.bogar@gmail.com>"
 
 RUN pacman -Syy
