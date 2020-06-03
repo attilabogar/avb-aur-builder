@@ -1,24 +1,26 @@
-# avb-aur-builder
+# arch-pkg-builder
 
-Attila Bogár's AUR build scripts
+Attila Bogár's ArchLinux PKG build environment utilising docker-compose
 
 [![Build Status][1]][2]
 
-[1]: https://travis-ci.org/attilabogar/avb-aur-builder.svg?branch=master
-[2]: https://travis-ci.org/attilabogar/avb-aur-builder
+[1]: https://travis-ci.org/attilabogar/arch-pkg-builder.svg?branch=master
+[2]: https://travis-ci.org/attilabogar/arch-pkg-builder
 
 
 ## Description
 
-This project can be used to build AUR packages in docker containers using `docker-compose`.
+This project can be used to build archlinux packages in docker containers using
+`docker-compose`.
 
-It's precedes my own AUR override packages description from
+By default it precedes my own AUR overrides from
 [avb-aur](https://github.com/attilabogar/avb-aur) over any official'
 [AUR](https://aur.archlinux.org).
 
 The order of the packages passed to the `build-pipeline.sh` is relevant, as
-packages down the list may depend on packages built first.  Figuring out and
-flattening the dependency order is the user's responsibility.
+packages down the pipeline list may depend on packages built in previous
+step(s).  Figuring out and flattening the dependency order is not done
+automatically.
 
 The list of package names can be passed as args or as a simple textfile, where
 each line is a package name.  Moreover, the two methods can be mixed.
@@ -37,7 +39,7 @@ The precedence for `build-pipeline.sh` resolving ARGV as follows:
 The setup of specific repositories, such as `multilib` is your responsibility.
 The docker image built upon
 [archlinux/base](https://github.com/archlinux/archlinux-docker) - you can check
-my patches I use for archlinux and archlinuxarm in the `contrib/` directory.
+my patches I use for archlinux and archlinuxarm under the `contrib/` directory.
 
 # Structure
 
@@ -45,12 +47,14 @@ my patches I use for archlinux and archlinuxarm in the `contrib/` directory.
   - `repo/` (the local repository - packages end up here)
   - `build/` (the build workspace)
 
-## Example
+## Examples
 
 To build [Google Chrome](https://aur.archlinux.org/packages/google-chrome), run
 `./build-pipeline.sh google-chrome`
 
-To build a more complicated flow, such as imapsync, put the packages into `aur-imapsync.txt`
+To build a more complicated flow - such as imapsync - create a text file named
+`aur-imapsync.txt` w/ the content:
+
 ```
 perl-par
 perl-par-packer
@@ -69,7 +73,7 @@ Then run `./build-pipeline.sh aur-imapsync.txt`
 
     MIT License
 
-    Copyright (c) 2019 Attila Bogár
+    Copyright (c) 2019-2020 Attila Bogár
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

@@ -3,7 +3,7 @@ version: '2'
 services:
   build:
     build: .
-    image: "attilabogar/avb-aur-builder:latest"
+    image: "attilabogar/arch-pkg-builder:latest"
     environment:
       - UID=${MYUID}
       - GID=${MYGID}
